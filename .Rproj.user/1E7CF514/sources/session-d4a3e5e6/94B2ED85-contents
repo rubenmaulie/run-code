@@ -1,0 +1,78 @@
+---
+title: "Test"
+author: "Maulie Ruben"
+date: "2022-12-26"
+output: html_document
+
+##intaller le package wbstats##
+install.packages("wbstats")
+install.packages("ggplot")
+## library ggplot,wbstats,tidyverse ##
+library(wbstats)
+library(ggplot2)
+library(tidyverse)
+
+wbstats::wb_data(indicator = "BG.GSR.NFSV.GD.ZS",country = "HTI")
+wb_search("inflation")
+##Choix des trois autres indicateurs:Masse monetaire,taux de change,importations##
+
+my_indicators <- c("FP.CPI.TOTL.ZG","PA.NUS.FCRF","TM.VAL.MRCH.CD.WT","FM.LBL.BMNY.CN")
+df<-wb_data(my_indicators,country="HTI")
+##Tableau de donnees des indicateurs de 1980 a 2020 ##
+dfe<-wb_data(my_indicators,country="HTI",start_date=1980,end_date=2020)
+
+## reponse point 2 ##
+Tableau1<-subset(dfe,select=c("FP.CPI.TOTL.ZG","FM.LBL.BMNY.CN"))
+ggplot(Tableau1,aes(Tableau1$FP.CPI.TOTL.ZG,Tableau1$FM.LBL.BMNY.CN))+
+  geom_point()+geom_smooth(method=lm)
+
+Tableau2<-subset(dfe,select=c("FP.CPI.TOTL.ZG","TM.VAL.MRCH.CD.WT"))
+ggplot(Tableau2,aes(Tableau2$TM.VAL.MRCH.CD.WT,Tableau2$FP.CPI.TOTL.ZG))+
+  geom_point()+geom_smooth(method=lm)
+
+
+Tableau3<-subset(dfe,select=c("FP.CPI.TOTL.ZG","PA.NUS.FCRF"))
+ggplot(Tableau3,aes(Tableau3$PA.NUS.FCRF,Tableau3$FP.CPI.TOTL.ZG))+
+  geom_point()+geom_smooth(method=lm)
+
+## Reponse point 3 ##
+Tableau4<-subset(dfe,select=c("FP.CPI.TOTL.ZG","PA.NUS.FCRF","FM.LBL.BMNY.CN","TM.VAL.MRCH.CD.WT"))
+Regressioninflation<-lm(FP.CPI.TOTL.ZG~FM.LBL.BMNY.CN+TM.VAL.MRCH.CD.WT+PA.NUS.FCRF,data=Tableau4)
+print(Regressioninflation)
+
+summary(Regressioninflation)
+Rajuster<-resultat_lm$adj.r.squared
+Fstatistic<-resultat_lm$fstatistic
+coefficient<-resultat_lm$coefficients[,1]
+Probabilite<-resultat_lm$coefficients[,4]
+tableau5<-data.frame(coefficient,Probabilite,Rajuster,Fstatistic)
+
+
+summary(Regressioninflation)[[4]][,4]&summary(Regressioninflation) fstatistic
+
+pf(summary(reg1)$,summary(reg1)$fstatistic[2],summary(reg1)$fstatistic[3],lower.tail=FALSE)
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

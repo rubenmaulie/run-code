@@ -1,0 +1,4 @@
+install.packages("wbstats")
+library(wbstats)
+wbstats::wb_data(indicator = "BG.GSR.NFSV.GD.ZS",country = "HTI")
+wb_search("inflation")

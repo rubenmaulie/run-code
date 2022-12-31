@@ -1,0 +1,19 @@
+dr<-function(x){
+  dr<-read.csv("C:\\Users\\UniQ1\\Documents\\Donnees.csv") 
+  x.lm<-lm(x~y,data = dr)
+  coeffs = coefficients(x.lm); coeffs
+  # Comparaison d'une moyenne observée 
+  # à une moyenne théorique mu
+  t.test(dr$x,mu=0)
+  # Test de student non-apparié
+  # Comparaison des moyennes de deux groupes (x et y)
+  t.test(dr$x, dr$y)
+  t.test(dr$x, dr$y, alternative=c("two.sided", "less", "greater"))
+  
+  dr$p.value # Affichage de la p-value
+  dr$parameter # Affichage du dégré de liberté
+  dr$statistic # Affichage  de la statistique t
+  
+}
+
+dr("C:\\Users\\UniQ1\\Documents\\Donnees.csv")

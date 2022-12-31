@@ -1,0 +1,85 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+---
+title: "Test"
+author: "Maulie Ruben,Melissa Plaisir,Cedric Senat,"
+date: "2022-12-26"
+output: html_document
+
+# Partie 1
+
+##intaller le package wbstats##
+install.packages("wbstats")
+install.packages("ggplot")
+install.packages("tidyverse")
+install.packages("broom")
+
+
+## library ggplot,wbstats,tidyverse,broom ##
+library(wbstats)
+library(ggplot2)
+library(tidyverse)
+library(broom)
+wbstats::wb_data(indicator = "BG.GSR.NFSV.GD.ZS",country = "HTI")
+wb_search("inflation")
+
+# Partie 2
+
+## reponse point 1 ##
+
+### Introduction 
+L'economiste Milton Friedman affirment que l'inflation est toujours et partout un phenomene monetaire (en realtion avec la quantite de monnaie en circulation dans l'economie).D'autres,avance qu'il peut resulter de l'augmentation des prix des biens importes dans un pays,d'autres soulignent la depreciation de la monnaie locale par rapports au dollars americain. Compte tenu qu'haiti importent la majeur partie des biens et que la gourde se deprecie graduellement,pour expliquer l'inflation ces trois variables  sont consideres :Masse monetaire (FM.LBL.BMNY.CN), taux de change(PA.NUS.FCRF), importations (TM.VAL.MRCH.CD.WT)
+
+
+### Choix des trois autres indicateurs:Masse monetaire,taux de change,importations
+my_indicators <- c("FP.CPI.TOTL.ZG","PA.NUS.FCRF","TM.VAL.MRCH.CD.WT","FM.LBL.BMNY.CN")
+df<-wb_data(my_indicators,country="HTI")
+
+### Tableau de donnees des indicateurs de 1980 a 2020 
+dfe<-wb_data(my_indicators,country="HTI",start_date=1980,end_date=2020)
+
+## reponse point 2 
+
+### Regression inflation et Masse monetaire
+Tableau1<-subset(dfe,select=c("FP.CPI.TOTL.ZG","FM.LBL.BMNY.CN"))
+ggplot(Tableau1,aes(Tableau1$FP.CPI.TOTL.ZG,Tableau1$FM.LBL.BMNY.CN))+
+  geom_point()+geom_smooth(method=lm)
+
+### Regression inflation et Importations
+Tableau2<-subset(dfe,select=c("FP.CPI.TOTL.ZG","TM.VAL.MRCH.CD.WT"))
+ggplot(Tableau2,aes(Tableau2$TM.VAL.MRCH.CD.WT,Tableau2$FP.CPI.TOTL.ZG))+
+  geom_point()+geom_smooth(method=lm)
+
+### Regression inflation et taux de change
+Tableau3<-subset(dfe,select=c("FP.CPI.TOTL.ZG","PA.NUS.FCRF"))
+ggplot(Tableau3,aes(Tableau3$PA.NUS.FCRF,Tableau3$FP.CPI.TOTL.ZG))+
+  geom_point()+geom_smooth(method=lm)
+
+## Reponse point 3 ##
+
+### Grouper les donnees de la variable dependante et des varanbles independantes dans un un tableau
+
+Tableau4<-subset(dfe,select=c("FP.CPI.TOTL.ZG","PA.NUS.FCRF","FM.LBL.BMNY.CN","TM.VAL.MRCH.CD.WT"))
+
+### Tableau de coefficient,Rstatistic de fisher, probalite et R carre ajustee ##
+Regressioninflation<-lm(FP.CPI.TOTL.ZG~FM.LBL.BMNY.CN+TM.VAL.MRCH.CD.WT+PA.NUS.FCRF,data=Tableau4)
+tidy(Regressioninflation)
+summary(Regressioninflation)$adj.r.squared
+
+
+
+## Reponse point 4 ##
+## calcul des valeurs residuels et les valeurs estimees ##
+dt<-data.frame(residuals(Regressioninflation),fitted.values(Regressioninflation))
+
+ggplot(dt,aes(residuals(Regressioninflation),fitted.values(Regressioninflation)))+
+  geom_point()+geom_smooth(method=lm)
+  
+ ##interpretation## 
+L'ecart entre les valeurs estimees et les valeurs residuelles sont trop grandes,de ce fait les variables independantes n'expliquent pas la variable dependante.  
+
+
+

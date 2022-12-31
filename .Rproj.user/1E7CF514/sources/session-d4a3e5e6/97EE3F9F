@@ -1,0 +1,30 @@
+{
+    "id": "97EE3F9F",
+    "path": "~/essai devoir/run code/devoir bon.Rmd",
+    "project_path": "devoir bon.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": true,
+    "created": 1672193324302.0,
+    "source_on_save": false,
+    "relative_order": 10,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "49,79",
+        "scrollLine": "32",
+        "rmdVisualMode": "false",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "1:0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1672194220,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1672228124190,
+    "read_only": false,
+    "read_only_alternatives": []
+}

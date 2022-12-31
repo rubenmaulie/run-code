@@ -1,0 +1,32 @@
+library(ggplot2)
+library(tidyverse)
+
+
+Datacreditbancaire<-read.csv("CreditBancaire.csv")
+RegressionJoursdeRetard<-lm(Datacreditbancaire$Jours~Datacreditbancaire$Credit+Datacreditbancaire$Type,data=Datacreditbancaire)
+print(RegressionJoursdeRetard)
+
+summary(RegressionJoursdeRetard)
+
+resultat_lm<-summary(RegressionJoursdeRetard)
+resultat_lm$coefficients
+resultat_lm$coefficients[,1:2]
+
+
+ggplot(Datacreditbancaire,aes(Jours,Credit))+
+  geom_point()+geom_smooth(method=lm)
+
+ggplot(Datacreditbancaire,aes(Jours,Type))+
+  geom_point()+geom_smooth(method=lm)
+
+
+Regressionmodel<-function(x){
+  regressData<-read.csv("C:\\Users\\UniQ1\\Documents\\Devoir decembre\\Devoir 8 decembre 2022\\Data.csv") 
+  
+  resultat_lm$coefficients
+  resultat_lm$coefficients[,1:2]
+  
+  
+}
+
+Regressionmodel("Data.csv") 
